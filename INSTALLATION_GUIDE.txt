@@ -1,0 +1,76 @@
+ANN INVENTORY CONTROL SYSTEM - INSTALLATION GUIDE
+=================================================
+
+SYSTEM REQUIREMENTS
+- Windows 10/11, macOS, or Linux (Ubuntu)
+- Python 3.10 or newer
+- At least 4GB RAM (8GB recommended) and 1GB free disk space
+- Internet connection for the first installation only
+- Any web browser (Google Chrome, Microsoft Edge or Mozilla Firefox)
+
+STEP 1: INSTALL PYTHON (one time only)
+1. Go to https://www.python.org/downloads
+2. Download the latest Python 3 installer for your computer.
+3. Run the installer.
+   WINDOWS: on the first screen, tick "Add python.exe to PATH" before clicking "Install Now".
+4. When it finishes, click Close.
+
+STEP 2: EXTRACT THE SYSTEM FILES
+1. Copy ANN_Inventory_System.zip to your computer (for example, to the Desktop).
+2. Right-click the zip file, choose "Extract All", then click "Extract".
+3. Open the extracted folder "ANN_Inventory_System".
+
+STEP 3: START THE SYSTEM
+WINDOWS:
+  Double-click "START_SYSTEM_WINDOWS.bat".
+  If Windows shows "Windows protected your PC", click "More info", then "Run anyway".
+MACOS / LINUX:
+  Open Terminal in the folder and type:  ./start_system_mac_linux.sh
+
+THE FIRST START takes about 3 to 10 minutes, depending on your internet speed. The system:
+  a. creates a private Python environment (folder "venv"),
+  b. downloads and installs Flask, NumPy, Pandas, Scikit-learn, Matplotlib and Seaborn,
+  c. prepares the 3,600-record inventory dataset,
+  d. trains the ANN model (70:30 split) and saves it in the "model" folder,
+  e. creates the SQLite database "inventory.db",
+  f. starts the web server and opens your browser automatically.
+LATER STARTS take only a few seconds and do not need internet.
+
+When you see this message, the system is ready:
+  Open your browser at: http://127.0.0.1:5000
+If the browser does not open by itself, open it and type http://127.0.0.1:5000 in the address bar.
+Keep the black command window open while you use the system. Closing it stops the system.
+
+STEP 4: LOG IN
+  Username        Password      Role             Location
+  admin           password123   Administrator    Main Warehouse
+  store_main      password123   Store Officer    Main Warehouse
+  store_north     password123   Store Officer    Branch Store North
+  store_south     password123   Store Officer    Branch Store South
+
+STEP 5: USE THE SYSTEM
+- Dashboard: summary of items, suppliers, locations, transactions, reorder alerts and ANN accuracy.
+- Inventory Items / Suppliers / Store Locations: register and manage records (Administrator).
+- Transactions > + Record Transaction: enter the stock figures and click "Submit & Run ANN Prediction".
+  The ANN shows REORDER REQUIRED or STOCK SUFFICIENT and saves the record.
+- ANN Prediction: test any stock position without saving a transaction.
+- Model Performance: accuracy, precision, recall, F1-score, AUC-ROC, confusion matrix and charts.
+- Reports: reorder alerts by category and by location.
+- User Accounts: add or remove users (Administrator).
+
+STEP 6: STOP THE SYSTEM
+Click the black command window and press CTRL + C, or close the window.
+
+TROUBLESHOOTING
+- "Python was not found": reinstall Python and tick "Add python.exe to PATH".
+- Library installation failed: check your internet connection, then run the start file again.
+- "Address already in use": the system is already running in another window. Close it and start again.
+- To reset the system to its original data: stop it, delete "inventory.db", and start it again.
+- To retrain the ANN: stop the system, delete the files inside the "model" folder, and start it again.
+
+MANUAL INSTALLATION (alternative to the start files)
+  cd ANN_Inventory_System
+  python -m venv venv
+  venv\Scripts\activate            (Windows)   or   source venv/bin/activate   (macOS/Linux)
+  pip install -r requirements.txt
+  python app.py

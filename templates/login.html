@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign In · ANN Inventory Control System</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><div class="login-wrap"><div class="login-card">
+ <div class="login-brand"><div class="eyebrow">Design and Implementation</div>
+  <h1>Inventory Control System using Artificial Neural Network</h1>
+  <p style="margin:0">A general-purpose inventory control system. A trained ANN checks every stock transaction and flags items that need to be reordered before they run out.</p></div>
+ <form class="login-form" method="post">
+  <h2>Sign in</h2>
+  {% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  <div class="fld"><label for="username">Username</label><input id="username" name="username" required autofocus></div>
+  <div class="fld"><label for="password">Password</label><input id="password" name="password" type="password" required></div>
+  <button class="btn primary" type="submit">Sign In</button>
+  <p class="sub" style="margin:0">Default accounts: admin, store_main, store_north, store_south. Password: password123</p>
+ </form></div></div></body></html>

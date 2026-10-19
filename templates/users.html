@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}User Accounts{% endblock %}{% block content %}
+<section class="panel"><h2>Add a user</h2><form class="f" method="post">
+ <div class="fld"><label>Username</label><input name="username" required></div>
+ <div class="fld"><label>Password</label><input name="password" type="password" required minlength="6"></div>
+ <div class="fld"><label>Full name</label><input name="full_name" required></div>
+ <div class="fld"><label>Role</label><select name="role"><option>Store Officer</option><option>Administrator</option></select></div>
+ <div class="fld"><label>Assigned location</label><select name="location_id">{% for l in locations %}<option value="{{ l.location_id }}">{{ l.location_name }}</option>{% endfor %}</select></div>
+ <div class="actions"><button class="btn primary">Create Account</button></div></form></section>
+<section class="panel"><h2>User accounts</h2><div class="tw"><table class="t"><thead><tr><th>Username</th><th>Full name</th><th>Role</th><th>Location</th><th></th></tr></thead><tbody>
+{% for u in users %}<tr><td>{{ u.username }}</td><td>{{ u.full_name }}</td><td>{{ u.role }}</td><td>{{ u.location_name }}</td>
+<td>{% if u.user_id != session.user_id %}<form method="post" action="{{ url_for('delete_user', uid=u.user_id) }}" onsubmit="return confirm('Remove this account?')"><button class="btn sm danger">Remove</button></form>{% else %}<span class="sub">You</span>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

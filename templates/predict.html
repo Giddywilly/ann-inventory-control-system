@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}ANN Prediction{% endblock %}{% block content %}
+<div class="grid2">
+<section class="panel"><div class="panel-head"><h2>ANN prediction engine</h2><span class="sub">Category, unit cost, reorder level and lead time come from the item and supplier records.</span></div>
+<form class="f" method="post">{% include '_stock_fields.html' %}<div class="actions"><button class="btn primary">Run ANN Prediction</button></div></form></section>
+<section class="panel"><h2>Result</h2>
+{% if result %}{% set re = result.prediction == 1 %}
+<div class="result {{ 're' if re else 'ok' }}"><div class="verdict">{{ 'REORDER REQUIRED' if re else 'STOCK SUFFICIENT' }}</div>
+ <div><div class="sub">Reorder probability <b>{{ '%.2f'|format(result.probability*100) }}%</b></div><div class="bar"><i style="width:{{ '%.1f'|format(result.probability*100) }}%"></i></div></div>
+ <dl class="kv"><dt>Computed reorder point (Eq. 4.1)</dt><dd>{{ '%.2f'|format(result.rop) }} units</dd><dt>Current stock</dt><dd>{{ result.stock }} units</dd><dt>Static reorder level</dt><dd>{{ result.item.reorder_level }} units</dd></dl></div>
+<dl class="kv"><dt>Item</dt><dd>{{ result.item.item_id }} · {{ result.item.item_name }}</dd><dt>Category</dt><dd>{{ result.item.category }}</dd><dt>Location</dt><dd>{{ result.location }}</dd><dt>Supplier</dt><dd>{{ result.item.supplier_name }}</dd><dt>Lead time</dt><dd>{{ result.item.lead_time_days }} days</dd><dt>Unit cost</dt><dd>₦{{ '{:,.2f}'.format(result.item.unit_cost) }}</dd></dl>
+{% else %}<p class="sub">The form is filled with the packaging carton example from Figure 4.8. Press Run ANN Prediction to see the result.</p>{% endif %}
+</section></div>{% endblock %}

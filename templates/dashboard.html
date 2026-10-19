@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block title %}Dashboard{% endblock %}{% block content %}
+<div class="tiles">
+ <div class="tile"><span class="k">Inventory Items</span><span class="v">{{ stats['items'] }}</span></div>
+ <div class="tile"><span class="k">Suppliers</span><span class="v">{{ stats.suppliers }}</span></div>
+ <div class="tile"><span class="k">Store Locations</span><span class="v">{{ stats.locations }}</span></div>
+ <div class="tile"><span class="k">Transactions</span><span class="v">{{ '{:,}'.format(stats.transactions) }}</span></div>
+ <div class="tile alert"><span class="k">Reorder Alerts</span><span class="v">{{ '{:,}'.format(stats.alerts) }}</span></div>
+ <div class="tile acc"><span class="k">ANN Accuracy</span><span class="v">{{ '%.2f'|format(accuracy) }}%</span></div>
+</div>
+<section class="panel"><div class="panel-head"><h2>Recent transactions</h2><a class="btn sm" href="{{ url_for('transactions') }}">View all</a></div>
+<div class="tw"><table class="t"><thead><tr><th>No.</th><th>Location</th><th>Item</th><th>Category</th><th class="n">Stock</th><th class="n">Reorder point</th><th>Demand rate</th><th>ANN status</th></tr></thead><tbody>
+{% for r in recent %}<tr><td class="n">TX-{{ '%04d'|format(r.transaction_id) }}</td><td>{{ r.location_name }}</td><td>{{ r.item_name }}</td><td>{{ r.category }}</td><td class="n">{{ r.current_stock }}</td><td class="n">{{ '%.2f'|format(r.predicted_rop) }}</td><td>{{ r.demand_rate }}</td>
+<td>{% if r.ann_decision %}<span class="pill re">REORDER</span>{% else %}<span class="pill ok">SUFFICIENT</span>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

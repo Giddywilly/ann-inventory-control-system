@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}Reports{% endblock %}{% block content %}
+<div class="grid2">
+<section class="panel"><h2>Reorder alerts by category</h2><div class="tw"><table class="t"><thead><tr><th>Category</th><th class="n">Transactions</th><th class="n">Qty issued</th><th class="n">Alerts</th></tr></thead><tbody>
+{% for r in by_cat %}<tr><td>{{ r.category }}</td><td class="n">{{ '{:,}'.format(r.tx) }}</td><td class="n">{{ '{:,}'.format(r.issued) }}</td><td class="n">{{ r.alerts }}</td></tr>{% endfor %}</tbody></table></div></section>
+<section class="panel"><h2>Reorder alerts by location</h2><div class="tw"><table class="t"><thead><tr><th>Location</th><th class="n">Transactions</th><th class="n">Alerts</th></tr></thead><tbody>
+{% for r in by_loc %}<tr><td>{{ r.location_name }}</td><td class="n">{{ '{:,}'.format(r.tx) }}</td><td class="n">{{ r.alerts }}</td></tr>{% endfor %}</tbody></table></div></section></div>{% endblock %}

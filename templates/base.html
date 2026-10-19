@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{% endblock %} · ANN Inventory Control System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><div class="app">
+<nav class="side">
+  <div class="brand">Inventory Control System<small>ANN-based</small></div>
+  {% set ep = request.endpoint %}
+  <div class="grp">Operations</div>
+  <a href="{{ url_for('dashboard') }}" class="{{ 'on' if ep=='dashboard' }}">Dashboard</a>
+  <a href="{{ url_for('items') }}" class="{{ 'on' if ep in ('items','item_form') }}">Inventory Items</a>
+  <a href="{{ url_for('suppliers') }}" class="{{ 'on' if ep=='suppliers' }}">Suppliers</a>
+  <a href="{{ url_for('stock') }}" class="{{ 'on' if ep=='stock' }}">Stock Summary</a>
+  <a href="{{ url_for('locations') }}" class="{{ 'on' if ep=='locations' }}">Store Locations</a>
+  <a href="{{ url_for('transactions') }}" class="{{ 'on' if ep in ('transactions','add_transaction') }}">Transactions</a>
+  <div class="grp">Artificial Neural Network</div>
+  <a href="{{ url_for('predict') }}" class="{{ 'on' if ep=='predict' }}">ANN Prediction</a>
+  <a href="{{ url_for('performance') }}" class="{{ 'on' if ep=='performance' }}">Model Performance</a>
+  <a href="{{ url_for('reports') }}" class="{{ 'on' if ep=='reports' }}">Reports</a>
+  {% if session.role == 'Administrator' %}<div class="grp">Administration</div>
+  <a href="{{ url_for('users') }}" class="{{ 'on' if ep=='users' }}">User Accounts</a>{% endif %}
+</nav>
+<main>
+  <div class="topbar"><h1>{{ self.title() }}</h1>
+    <div class="who"><span>Signed in as <b>{{ session.full_name }}</b> · {{ session.role }}</span><a class="btn sm" href="{{ url_for('logout') }}">Sign Out</a></div></div>
+  {% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main></div></body></html>

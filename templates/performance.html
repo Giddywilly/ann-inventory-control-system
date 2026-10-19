@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block title %}Model Performance{% endblock %}{% block content %}
+<div class="tiles">
+ <div class="tile acc"><span class="k">Accuracy</span><span class="v">{{ '%.2f'|format(m.accuracy*100) }}%</span></div>
+ <div class="tile"><span class="k">Precision</span><span class="v">{{ '%.2f'|format(m.precision*100) }}%</span></div>
+ <div class="tile"><span class="k">Recall</span><span class="v">{{ '%.2f'|format(m.recall*100) }}%</span></div>
+ <div class="tile"><span class="k">F1-Score</span><span class="v">{{ '%.2f'|format(m.f1*100) }}%</span></div>
+ <div class="tile"><span class="k">AUC-ROC</span><span class="v">{{ '%.4f'|format(m.auc) }}</span></div></div>
+<section class="panel"><h2>Existing vs proposed system ({{ m.split.test }} test records)</h2>
+<div class="tw"><table class="t"><thead><tr><th>Metric</th><th class="n">Existing (rule-based)</th><th class="n">Proposed ANN</th></tr></thead><tbody>
+{% for l,k in [('Accuracy','accuracy'),('Precision','precision'),('Recall','recall'),('F1-Score','f1')] %}<tr><td>{{ l }}</td><td class="n">{{ '%.2f'|format(m.existing[k]*100) }}%</td><td class="n">{{ '%.2f'|format(m[k]*100) }}%</td></tr>{% endfor %}
+<tr><td>AUC-ROC</td><td class="n">{{ '%.4f'|format(m.existing.auc) }}</td><td class="n">{{ '%.4f'|format(m.auc) }}</td></tr></tbody></table></div>
+<p class="sub" style="margin:0">Architecture 16 → 64 → 32 → 16 → 1 (ReLU hidden layers, sigmoid output). Trained on {{ m.split.train }} records; training stopped after {{ m.iterations }} iterations.</p></section>
+<div class="grid2 figs">
+ <section class="panel"><h2>Training loss and validation accuracy</h2><img src="{{ url_for('figures', name='training_curve.png') }}" alt="Training curve"></section>
+ <section class="panel"><h2>Confusion matrix</h2><img src="{{ url_for('figures', name='confusion_matrix.png') }}" alt="Confusion matrix"></section>
+ <section class="panel"><h2>ROC curve</h2><img src="{{ url_for('figures', name='roc_curve.png') }}" alt="ROC curve"></section>
+ <section class="panel"><h2>Performance comparison</h2><img src="{{ url_for('figures', name='comparison.png') }}" alt="Comparison chart"></section></div>
+<section class="panel"><h2>Performance by inventory category</h2>
+<div class="tw"><table class="t"><thead><tr><th>Category</th><th class="n">Test records</th><th class="n">Actual reorders</th><th class="n">Detected</th><th class="n">Accuracy</th></tr></thead><tbody>
+{% for c, v in m.test_by_category.items() %}<tr><td>{{ c }}</td><td class="n">{{ v.records }}</td><td class="n">{{ v.actual_reorders }}</td><td class="n">{{ v.detected }}</td><td class="n">{{ '%.2f'|format(v.accuracy*100) }}%</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

@@ -1,0 +1,8 @@
+<div class="fld"><label>Store location</label><select name="location_id">{% for l in locations %}<option value="{{ l.location_id }}" {{ 'selected' if form.get('location_id')|string==l.location_id|string }}>{{ l.location_name }}</option>{% endfor %}</select></div>
+<div class="fld"><label>Inventory item</label><select name="item_id">{% for i in items %}<option value="{{ i.item_id }}" {{ 'selected' if form.get('item_id')==i.item_id }}>{{ i.item_id }} · {{ i.item_name }}</option>{% endfor %}</select></div>
+<div class="fld"><label>Current stock</label><input name="current_stock" type="number" min="0" required value="{{ form.get('current_stock','') }}"></div>
+<div class="fld"><label>Quantity issued</label><input name="quantity_issued" type="number" min="0" required value="{{ form.get('quantity_issued','') }}"></div>
+<div class="fld"><label>Quantity received (0 if none)</label><input name="quantity_received" type="number" min="0" value="{{ form.get('quantity_received',0) }}"></div>
+<div class="fld"><label>Average daily demand</label><input name="avg_daily_demand" type="number" step="0.001" min="0" required value="{{ form.get('avg_daily_demand','') }}"></div>
+<div class="fld"><label>Demand rate</label><select name="demand_rate">{% for d in demands %}<option {{ 'selected' if form.get('demand_rate','Medium')==d }}>{{ d }}</option>{% endfor %}</select></div>
+<div class="fld"><label>Month (1 to 12)</label><input name="month" type="number" min="1" max="12" required value="{{ form.get('month','') }}"></div>

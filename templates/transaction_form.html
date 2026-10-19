@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}Record Transaction{% endblock %}{% block content %}
+<section class="panel"><div class="panel-head"><h2>Record a stock transaction</h2><span class="sub">The ANN checks the stock position as soon as you submit.</span></div>
+<form class="f" method="post">{% set form = {'location_id': session.location_id} %}
+ <div class="fld"><label>Transaction type</label><select name="transaction_type"><option>Issuance</option><option>Receipt</option><option>Adjustment</option></select></div>
+ {% include '_stock_fields.html' %}
+ <div class="actions"><button class="btn primary">Submit &amp; Run ANN Prediction</button><a class="btn" href="{{ url_for('transactions') }}">Cancel</a></div>
+</form></section>{% endblock %}

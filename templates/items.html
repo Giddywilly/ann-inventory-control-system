@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block title %}Inventory Items{% endblock %}{% block content %}
+<section class="panel"><div class="panel-head"><div><h2>Inventory items</h2><span class="sub">{{ items|length }} items registered.</span></div>
+{% if session.role=='Administrator' %}<a class="btn primary" href="{{ url_for('item_form') }}">+ Add Item</a>{% endif %}</div>
+<div class="tw"><table class="t"><thead><tr><th>Item ID</th><th>Item name</th><th>Category</th><th>Supplier</th><th class="n">Unit cost (₦)</th><th class="n">Reorder level</th>{% if session.role=='Administrator' %}<th></th>{% endif %}</tr></thead><tbody>
+{% for i in items %}<tr><td>{{ i.item_id }}</td><td>{{ i.item_name }}</td><td>{{ i.category }}</td><td>{{ i.supplier_name }}</td><td class="n">{{ '{:,.2f}'.format(i.unit_cost) }}</td><td class="n">{{ i.reorder_level }}</td>
+{% if session.role=='Administrator' %}<td><a class="btn sm" href="{{ url_for('item_form', item_id=i.item_id) }}">Edit</a>
+<form method="post" action="{{ url_for('delete_item', item_id=i.item_id) }}" style="display:inline" onsubmit="return confirm('Delete this item and its transactions?')"><button class="btn sm danger">Delete</button></form></td>{% endif %}</tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

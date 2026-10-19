@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}Transactions{% endblock %}{% block content %}
+<section class="panel"><div class="panel-head"><div><h2>Transaction records</h2><span class="sub">Latest 50 records. Each record carries the ANN decision.</span></div><a class="btn primary" href="{{ url_for('add_transaction') }}">+ Record Transaction</a></div>
+<div class="tw"><table class="t"><thead><tr><th>No.</th><th>Type</th><th>Location</th><th>Item</th><th class="n">Stock</th><th class="n">Issued</th><th class="n">Received</th><th class="n">Reorder point</th><th>Demand rate</th><th class="n">Prob.</th><th>ANN decision</th></tr></thead><tbody>
+{% for t in rows %}<tr><td class="n">TX-{{ '%04d'|format(t.transaction_id) }}</td><td>{{ t.transaction_type }}</td><td>{{ t.location_name }}</td><td>{{ t.item_name }}</td><td class="n">{{ t.current_stock }}</td><td class="n">{{ t.quantity_issued }}</td><td class="n">{{ t.quantity_received }}</td><td class="n">{{ '%.2f'|format(t.predicted_rop) }}</td><td>{{ t.demand_rate }}</td><td class="n">{{ '%.1f'|format(t.ann_probability*100) }}%</td>
+<td>{% if t.ann_decision %}<span class="pill re">REORDER</span>{% else %}<span class="pill ok">SUFFICIENT</span>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

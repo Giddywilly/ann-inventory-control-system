@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block title %}Stock Summary{% endblock %}{% block content %}
+<section class="panel"><div class="panel-head"><h2>Stock inventory summary</h2><span class="sub">Ordered by number of ANN reorder alerts, most critical first.</span></div>
+<div class="tw"><table class="t"><thead><tr><th>Item</th><th>Category</th><th class="n">Avg stock</th><th class="n">Total issued</th><th class="n">Total received</th><th class="n">Avg reorder point</th><th class="n">ANN alerts</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{ r.item_name }}</td><td>{{ r.category }}</td><td class="n">{{ r.avg_stock }}</td><td class="n">{{ '{:,}'.format(r.issued) }}</td><td class="n">{{ '{:,}'.format(r.received) }}</td><td class="n">{{ r.avg_rop }}</td><td class="n">{{ r.alerts }}</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

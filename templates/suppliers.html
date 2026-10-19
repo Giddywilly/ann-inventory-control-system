@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block title %}Suppliers{% endblock %}{% block content %}
+{% if session.role=='Administrator' %}<section class="panel"><h2>Add a supplier</h2><form class="f" method="post">
+ <div class="fld"><label>Supplier ID</label><input name="supplier_id" required placeholder="SUP006"></div>
+ <div class="fld"><label>Supplier name</label><input name="supplier_name" required></div>
+ <div class="fld"><label>City</label><input name="city"></div>
+ <div class="fld"><label>Lead time (days)</label><input name="lead_time_days" type="number" min="1" required></div>
+ <div class="actions"><button class="btn primary">Add Supplier</button></div></form></section>{% endif %}
+<section class="panel"><div class="panel-head"><h2>Suppliers</h2><span class="sub">Suppliers with longer lead times receive earlier reorder warnings.</span></div>
+<div class="tw"><table class="t"><thead><tr><th>ID</th><th>Supplier</th><th>City</th><th class="n">Lead time (days)</th><th class="n">Items</th><th class="n">Qty received</th><th class="n">ANN alerts</th></tr></thead><tbody>
+{% for s in suppliers %}<tr><td>{{ s.supplier_id }}</td><td>{{ s.supplier_name }}</td><td>{{ s.city }}</td><td class="n">{{ s.lead_time_days }}</td><td class="n">{{ s['items'] }}</td><td class="n">{{ '{:,}'.format(s.supplied) }}</td><td class="n">{{ s.alerts }}</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}
